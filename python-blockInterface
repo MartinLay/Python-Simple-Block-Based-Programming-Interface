@@ -1,0 +1,52 @@
+import tkinter as tk
+from tkinter import ttk
+
+class BlockBasedInterface:
+    def __init__(self, master):
+        self.master = master
+        master.title("Simple Block-Based Interface")
+
+        # Create canvas
+        self.canvas = tk.Canvas(master, width=400, height=300, bg="white")
+        self.canvas.pack(pady=10)
+
+        # Create frame for controls
+        self.control_frame = ttk.Frame(master)
+        self.control_frame.pack(pady=10)
+
+        # Create dropdown for shape selection
+        self.shape_var = tk.StringVar()
+        self.shape_dropdown = ttk.Combobox(self.control_frame, textvariable=self.shape_var)
+        self.shape_dropdown['values'] = ('circle', 'square', 'triangle')
+        self.shape_dropdown.set('circle')
+        self.shape_dropdown.pack(side=tk.LEFT, padx=5)
+
+        # Create dropdown for color selection
+        self.color_var = tk.StringVar()
+        self.color_dropdown = ttk.Combobox(self.control_frame, textvariable=self.color_var)
+        self.color_dropdown['values'] = ('red', 'green', 'blue')
+        self.color_dropdown.set('blue')
+        self.color_dropdown.pack(side=tk.LEFT, padx=5)
+
+        # Create draw button
+        self.draw_button = ttk.Button(self.control_frame, text="Draw", command=self.draw_shape)
+        self.draw_button.pack(side=tk.LEFT, padx=5)
+
+    def draw_shape(self):
+        shape = self.shape_var.get()
+        color = self.color_var.get()
+        
+        # Clear previous drawings
+        self.canvas.delete("all")
+        
+        # Draw the selected shape
+        if shape == 'circle':
+            self.canvas.create_oval(150, 100, 250, 200, fill=color)
+        elif shape == 'square':
+            self.canvas.create_rectangle(150, 100, 250, 200, fill=color)
+        elif shape == 'triangle':
+            self.canvas.create_polygon(200, 100, 150, 200, 250, 200, fill=color)
+
+root = tk.Tk()
+app = BlockBasedInterface(root)
+root.mainloop()
